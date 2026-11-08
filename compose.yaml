@@ -1,6 +1,6 @@
 services:
   collector:
-    build: .
+    image: ghcr.io/sjtrny/system-monitor:latest
     user: "0:0"
     command: ["python", "collector.py"]
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
       - source: collector
         target: /config/config.json
   web:
-    build: .
+    image: ghcr.io/sjtrny/system-monitor:latest
     restart: unless-stopped
     read_only: true
     cap_drop: [ALL]

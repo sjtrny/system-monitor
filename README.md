@@ -9,7 +9,7 @@ Requires Linux 5.12+ and rootful Docker Compose. Example `compose.yaml`:
 ```yaml
 services:
   collector:
-    build: .
+    image: ghcr.io/sjtrny/system-monitor:latest
     user: "0:0"
     command: ["python", "collector.py"]
     restart: unless-stopped
@@ -27,7 +27,7 @@ services:
       - source: collector
         target: /config/config.json
   web:
-    build: .
+    image: ghcr.io/sjtrny/system-monitor:latest
     restart: unless-stopped
     read_only: true
     cap_drop: [ALL]
@@ -42,9 +42,10 @@ volumes:
 ```
 
 ```sh
-docker compose up -d --build
+docker compose up -d --pull always
 ```
 
 Open <http://localhost:8080>. Set `PORT` to change the port.
 Edit [config.example.json](config.example.json) for host labels and filesystem paths.
+The image is published automatically from `main` for amd64 and arm64.
 No login; use a trusted network if changing the loopback bind.
