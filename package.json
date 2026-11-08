@@ -1,0 +1,11 @@
+{
+  "name": "system-monitor",
+  "private": true,
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

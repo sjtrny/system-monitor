@@ -1,0 +1,10 @@
+{
+  "hostname": "Host",
+  "filesystems": [
+    {
+      "path": "/",
+      "mount": "/host/root",
+      "type": "filesystem"
+    }
+  ]
+}

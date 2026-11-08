@@ -1,0 +1,6 @@
+*
+!Dockerfile
+!collector.py
+!server.py
+!static/
+!static/**

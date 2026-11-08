@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f9">
+  <meta name="description" content="Live host CPU, memory, integrated and discrete GPU, network and storage usage.">
+  <title>System Monitor</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div><h1>System Monitor <span id="hostname"></span></h1><p id="host-meta">Connecting to the host…</p></div>
+      <div class="controls"><span id="status" role="status">Connecting</span><button id="pause" type="button" aria-pressed="false">Pause</button></div>
+    </header>
+    <p id="error" class="alert" role="alert" hidden></p>
+    <noscript><p class="alert">Enable JavaScript to see live host metrics.</p></noscript>
+    <div class="grid" id="dashboard" aria-busy="true">
+      <section class="card" aria-labelledby="cpu-title">
+        <div class="card-title"><h2 id="cpu-title">CPU</h2><span id="cpu-temp" class="secondary"></span></div>
+        <p id="cpu-model" class="subtitle">Waiting for host data</p>
+        <div class="reading"><strong id="cpu-value">—</strong><span>in use</span></div>
+        <svg id="cpu-chart" class="chart" viewBox="0 0 500 64" preserveAspectRatio="none" role="img" aria-label="CPU usage over the last five minutes"></svg>
+        <div class="chart-labels"><span>5 minutes ago</span><span>Now</span></div>
+        <div id="cores" class="cores" aria-label="Usage of each CPU core"></div>
+        <p class="footnote" id="cpu-load">Per-core usage · waiting for samples</p>
+      </section>
+      <section class="card" aria-labelledby="memory-title">
+        <div class="card-title"><h2 id="memory-title">Memory</h2><span class="secondary" id="memory-total"></span></div>
+        <p class="subtitle">RAM used by the host</p>
+        <div class="reading"><strong id="memory-value">—</strong><span id="memory-used">in use</span></div>
+        <svg id="memory-chart" class="chart" viewBox="0 0 500 64" preserveAspectRatio="none" role="img" aria-label="Memory usage over the last five minutes"></svg>
+        <div class="chart-labels"><span>5 minutes ago</span><span>Now</span></div>
+        <dl class="facts"><div><dt>Available</dt><dd id="memory-available">—</dd></div><div><dt>Cache</dt><dd id="memory-cache">—</dd></div><div><dt>Swap used</dt><dd id="memory-swap">—</dd></div></dl>
+      </section>
+      <div id="gpus" class="gpu-grid"></div>
+      <section class="card" aria-labelledby="network-title">
+        <div class="card-title"><h2 id="network-title">Network</h2><span id="network-name" class="secondary"></span></div>
+        <p class="subtitle">Physical network interfaces</p>
+        <div class="network-readings"><div><span class="direction receive">↓ Receive</span><strong id="network-rx">—</strong></div><div><span class="direction send">↑ Send</span><strong id="network-tx">—</strong></div></div>
+        <svg id="network-chart" class="chart" viewBox="0 0 500 64" preserveAspectRatio="none" role="img" aria-label="Receive and send rates over the last five minutes"></svg>
+        <div class="chart-labels"><span>5 minutes ago</span><span id="network-scale">Now</span></div>
+        <div id="interfaces" class="interfaces"></div>
+      </section>
+      <section class="card" aria-labelledby="storage-title">
+        <div class="card-title"><h2 id="storage-title">Storage</h2><span class="secondary">Capacity · 60s refresh</span></div>
+        <div class="io"><span>Read <strong id="disk-read">—</strong></span><span>Write <strong id="disk-write">—</strong></span></div>
+        <div id="filesystems" class="filesystems"><p class="subtitle">Waiting for filesystems…</p></div>
+      </section>
+    </div>
+    <footer><span id="updated">Waiting for the first sample</span><span>Refreshes every 2 seconds · 5-minute history</span></footer>
+    <details class="notes"><summary>About these readings</summary><p>GPU usage is the busiest engine class, averaged over the engines in that class. Video includes decoding and encoding. GPU memory is the sum of resident client allocations; shared buffers can be counted by more than one client. Very short GPU jobs between samples may be missed.</p><p>Memory usage excludes available RAM, including reclaimable cache. Disk traffic counts physical devices once. Filesystem capacities are independent; storage pools can overlap the disks listed below them. History starts when the collector starts.</p></details>
+  </main>
+  <template id="gpu-template">
+    <section class="card gpu-card">
+      <div class="card-title"><h2 class="gpu-kind"></h2><span class="gpu-sensors secondary"></span></div>
+      <p class="subtitle gpu-name"></p>
+      <div class="reading"><strong class="gpu-value">—</strong><span>busiest engine class</span></div>
+      <svg class="chart gpu-chart" viewBox="0 0 500 64" preserveAspectRatio="none" role="img"></svg>
+      <div class="chart-labels"><span>5 minutes ago</span><span>Now</span></div>
+      <div class="engines"></div>
+      <dl class="facts"><div><dt class="gpu-memory-label"></dt><dd class="gpu-memory">—</dd></div><div><dt>Frequency</dt><dd class="gpu-frequency">—</dd></div><div><dt>GPU clients</dt><dd class="gpu-clients">—</dd></div></dl>
+      <p class="gpu-status footnote"></p>
+      <details class="process-details"><summary>Processes using this GPU</summary><ul class="gpu-processes"></ul><p class="footnote gpu-pci"></p></details>
+    </section>
+  </template>
+</body>
+</html>
