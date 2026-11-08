@@ -1,6 +1,8 @@
 # System Monitor
 
-CPU, RAM, Intel i915/Xe GPUs, network and storage. Two-second updates; five-minute history.
+A system monitor web app showing CPU, RAM, GPU, network and storage usage.
+
+![System Monitor dashboard showing CPU, memory, integrated and discrete GPUs, network and storage usage](docs/screenshot.png)
 
 Requires Linux 5.12+ and rootful Docker Compose. Example `compose.yaml`:
 
