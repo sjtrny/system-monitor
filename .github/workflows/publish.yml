@@ -51,6 +51,9 @@ jobs:
           labels: |
             org.opencontainers.image.title=System Monitor
             org.opencontainers.image.description=A system monitor web app showing CPU, RAM, GPU, network and storage usage.
+          annotations: |
+            org.opencontainers.image.title=System Monitor
+            org.opencontainers.image.description=A system monitor web app showing CPU, RAM, GPU, network and storage usage.
 
       - name: Log in to GHCR
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
@@ -81,4 +84,5 @@ jobs:
               --network none --read-only --cap-drop ALL --tmpfs /tmp \
               --mount "type=bind,src=$PWD/tests,dst=/tests,readonly" \
               "$IMAGE" python -m unittest discover -s /tests -v
+            docker image rm "$IMAGE"
           done
